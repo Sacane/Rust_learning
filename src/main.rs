@@ -1,4 +1,5 @@
 use std::io;
+use std::io::Write;
 
 // Exo 1
 // fn main() {
@@ -10,22 +11,22 @@ use std::io;
 //     println!("Hello {}!", name.trim());
 // }
 
-fn read_str(mut buf: &mut String) -> String {
+fn read_str(typing_message: &str, buf: &mut String) -> String {
+    println!("{}", typing_message);
+    io::stdout().flush().unwrap();
     let stdin = io::stdin();
-    stdin.read_line(&mut buf).unwrap();
-    let result = buf.trim();
-    result.parse().unwrap()
+    stdin.read_line(buf).unwrap();
+    let result = buf.trim().to_string();
+    buf.clear();
+    result
 }
 
 fn main() {
     let mut buf = String::new();
     let mut buf2 = String::new();
 
-    println!("Type your first name :");
-    let first_name = read_str(&mut buf);
-
-    println!("Type your last name :");
-    let last_name = read_str(&mut buf2);
+    let first_name = read_str("Type your first name :", &mut buf);
+    let last_name = read_str("Type your last name :", &mut buf2);
 
     println!("Hello {} {}!", first_name, last_name);
 }
